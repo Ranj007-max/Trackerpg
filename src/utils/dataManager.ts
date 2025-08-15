@@ -88,7 +88,8 @@ export const downloadDataAsPdf = (subjects: Subject[], profile: UserProfile, fil
       return [chapter.name, chapterTotal, chapterCompleted, chapterProgress];
     });
 
-    const subjectProgress = subjectLectures > 0 ? `${Math.round((subjectCompleted / subjectLectures) * 100)}%` : '0%';
+    const targetLectures = subject.totalLectures || subjectLectures;
+    const subjectProgress = targetLectures > 0 ? `${Math.round((subjectCompleted / targetLectures) * 100)}%` : '0%';
     
     const requiredSpace = (chapterData.length * 10) + 25; // Estimate space needed
     if (finalY + requiredSpace > doc.internal.pageSize.height - 20) {

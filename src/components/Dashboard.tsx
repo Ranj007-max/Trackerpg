@@ -42,7 +42,7 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
       revisionLectures += subjectStats[LectureStatus.Revision];
       totalLectures += lectures.length;
 
-      if (lectures.length > 0) {
+      if (lectures.length > 0 || subject.totalLectures) {
         subjectProgress.push({
           name: subject.name,
           stats: subjectStats,

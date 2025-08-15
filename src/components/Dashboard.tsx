@@ -3,6 +3,8 @@ import { Subject, LectureStatus } from '../types';
 import ProgressiveBar from './ProgressiveBar';
 import ProgressChart from './ProgressChart';
 import ActivityChart from './ActivityChart';
+import CalendarView from './CalendarView';
+import GanttChartView from './GanttChartView';
 
 interface DashboardProps {
   subjects: Subject[];
@@ -89,6 +91,14 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <ProgressChart subjects={subjects} />
         <ActivityChart subjects={subjects} />
+      </div>
+
+      <div className="mb-8">
+        <CalendarView subjects={subjects} />
+      </div>
+
+      <div className="mb-8">
+        <GanttChartView subjects={subjects} />
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">

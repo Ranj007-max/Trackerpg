@@ -5,6 +5,7 @@ import ConfirmationModal from './modals/ConfirmationModal';
 import AddOrEditLectureModal from './modals/AddOrEditLectureModal';
 import ProgressiveBar from './ProgressiveBar';
 import EditSubjectModal from './modals/EditSubjectModal';
+import QuickAddLecture from './QuickAddLecture';
 
 interface SubjectItemProps {
   subject: Subject;
@@ -137,6 +138,19 @@ const SubjectItem: React.FC<SubjectItemProps> = ({ subject, onUpdate, onDelete }
     onUpdate({...subject, chapters: updatedChapters});
   }
 
+  const handleToggleBookmark = (chapterId: string, lectureId: string) => {
+    const updatedChapters = subject.chapters.map(c => {
+      if (c.id === chapterId) {
+        return {
+          ...c,
+          lectures: c.lectures.map(l => l.id === lectureId ? { ...l, isBookmarked: !l.isBookmarked } : l)
+        }
+      }
+      return c;
+    });
+    onUpdate({ ...subject, chapters: updatedChapters });
+  };
+
   const openLectureModal = (chapterId: string, lecture?: Lecture) => {
     setEditingLecture({ chapterId, lecture });
     setLectureModalOpen(true);
@@ -177,41 +191,70 @@ const SubjectItem: React.FC<SubjectItemProps> = ({ subject, onUpdate, onDelete }
                             <button onClick={() => handleDeleteChapter(chapter.id)} className="px-2 py-1 text-xs bg-red-600 hover:bg-red-700 rounded-md">Delete Chapter</button>
                         </div>
                     </div>
-                    {chapter.lectures.length > 0 ? (
-                        <div className="space-y-2">
-                           {chapter.lectures.map(lecture => (
-                               <div key={lecture.id} className="flex flex-col md:flex-row md:items-center justify-between text-sm p-3 bg-slate-700/50 rounded-md gap-3">
-                                   <div className="flex-grow font-medium text-slate-200">{lecture.name}</div>
-                                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-slate-400 text-xs">
-                                       {lecture.platform && (
-                                         <div className="flex items-center gap-1.5" title="Platform">
-                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                                             <span>{lecture.platform}</span>
-                                         </div>
-                                       )}
-                                       {lecture.faculty && (
-                                          <div className="flex items-center gap-1.5" title="Faculty">
-                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                                             <span>{lecture.faculty}</span>
-                                          </div>
-                                       )}
-                                   </div>
-                                   <div className="flex items-center justify-between md:justify-end gap-3 shrink-0">
-                                       <LectureStatusChanger lecture={lecture} onChange={(newStatus) => handleLectureStatusChange(chapter.id, lecture.id, newStatus)} />
-                                       <div className="flex items-center">
-                                           {lecture.videoUrl && (
-                                              <a href={lecture.videoUrl} target="_blank" rel="noopener noreferrer" className="p-1 text-slate-400 hover:text-cyan-400" title="Open Video Link">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" /></svg>
-                                              </a>
+                    <div>
+                        {chapter.lectures.length > 0 ? (
+                            <div className="space-y-2">
+                               {chapter.lectures.map(lecture => (
+                                   <div key={lecture.id} className="text-sm p-3 bg-slate-700/50 rounded-md">
+                                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                                           <div className="flex items-center gap-2 flex-grow">
+                                                <button onClick={() => handleToggleBookmark(chapter.id, lecture.id)} className="p-1 text-slate-400 hover:text-yellow-400" title="Toggle Bookmark">
+                                                    {lecture.isBookmarked ? (
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                        </svg>
+                                                    ) : (
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.95-.69L11.049 2.927z" />
+                                                        </svg>
+                                                    )}
+                                                </button>
+                                                <div className="font-medium text-slate-200">{lecture.name}</div>
+                                           </div>
+                                           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-slate-400 text-xs">
+                                               {lecture.platform && (
+                                                 <div className="flex items-center gap-1.5" title="Platform">
+                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                                     <span>{lecture.platform}</span>
+                                                 </div>
+                                               )}
+                                               {lecture.faculty && (
+                                                  <div className="flex items-center gap-1.5" title="Faculty">
+                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                                     <span>{lecture.faculty}</span>
+                                                  </div>
+                                               )}
+                                           </div>
+                                           <div className="flex items-center justify-between md:justify-end gap-3 shrink-0">
+                                               <LectureStatusChanger lecture={lecture} onChange={(newStatus) => handleLectureStatusChange(chapter.id, lecture.id, newStatus)} />
+                                               <div className="flex items-center">
+                                                   {lecture.videoUrl && (
+                                                      <a href={lecture.videoUrl} target="_blank" rel="noopener noreferrer" className="p-1 text-slate-400 hover:text-cyan-400" title="Open Video Link">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" /></svg>
+                                                      </a>
+                                                    )}
+                                                   <button onClick={() => openLectureModal(chapter.id, lecture)} className="p-1 text-slate-400 hover:text-sky-400" title="Edit Lecture"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg></button>
+                                                   <button onClick={() => handleDeleteLecture(chapter.id, lecture.id)} className="p-1 text-slate-400 hover:text-red-400" title="Delete Lecture"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+                                               </div>
+                                           </div>
+                                           {lecture.tags && lecture.tags.length > 0 && (
+                                                <div className="flex flex-wrap gap-2 mt-2 pl-8">
+                                                    {lecture.tags.map(tag => (
+                                                        <span key={tag} className="px-2 py-0.5 text-xs bg-sky-500/20 text-sky-300 rounded-full">
+                                                            {tag}
+                                                        </span>
+                                                    ))}
+                                                </div>
                                             )}
-                                           <button onClick={() => openLectureModal(chapter.id, lecture)} className="p-1 text-slate-400 hover:text-sky-400" title="Edit Lecture"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg></button>
-                                           <button onClick={() => handleDeleteLecture(chapter.id, lecture.id)} className="p-1 text-slate-400 hover:text-red-400" title="Delete Lecture"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
                                        </div>
                                    </div>
-                               </div>
-                           ))}
-                        </div>
-                    ) : <p className="text-slate-400 text-sm italic">No lectures added for this chapter.</p>}
+                               ))}
+                            </div>
+                        ) : (
+                            <p className="text-slate-400 text-sm italic">No lectures added for this chapter.</p>
+                        )}
+                        <QuickAddLecture onAdd={(name) => handleAddOrUpdateLecture(chapter.id, { name }, 1)} />
+                    </div>
                 </div>
               ))}
             </div>

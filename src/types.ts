@@ -12,6 +12,7 @@ export interface Lecture {
   platform: string;
   faculty: string;
   status: LectureStatus;
+  videoUrl?: string;
 }
 
 export interface Chapter {
@@ -23,6 +24,7 @@ export interface Chapter {
 export interface QBank {
   totalQuestions: number;
   solvedQuestions: number;
+  pdfUrl?: string;
 }
 
 export interface Subject {

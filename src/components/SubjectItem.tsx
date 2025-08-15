@@ -90,6 +90,7 @@ const SubjectItem: React.FC<SubjectItemProps> = ({ subject, onUpdate, onDelete }
                             platform: lectureData.platform || '',
                             faculty: lectureData.faculty || '',
                             status: lectureData.status || LectureStatus.NotStarted,
+                            videoUrl: lectureData.videoUrl || '',
                         });
                     }
                 } else {
@@ -100,6 +101,7 @@ const SubjectItem: React.FC<SubjectItemProps> = ({ subject, onUpdate, onDelete }
                         platform: lectureData.platform || '',
                         faculty: lectureData.faculty || '',
                         status: lectureData.status || LectureStatus.NotStarted,
+                        videoUrl: lectureData.videoUrl || '',
                     });
                 }
             }
@@ -172,16 +174,16 @@ const SubjectItem: React.FC<SubjectItemProps> = ({ subject, onUpdate, onDelete }
                         <h4 className="font-semibold text-slate-200">{chapter.name}</h4>
                         <div>
                             <button onClick={() => openLectureModal(chapter.id)} className="px-2 py-1 text-xs bg-cyan-600 hover:bg-cyan-700 rounded-md mr-2">+ Add Lecture</button>
-                            <button onClick={() => handleDeleteChapter(chapter.id)} className="px-2 py-1 text-xs bg-red-800 hover:bg-red-700 rounded-md">Delete</button>
+                            <button onClick={() => handleDeleteChapter(chapter.id)} className="px-2 py-1 text-xs bg-red-600 hover:bg-red-700 rounded-md">Delete Chapter</button>
                         </div>
                     </div>
                     {chapter.lectures.length > 0 ? (
                         <div className="space-y-2">
                            {chapter.lectures.map(lecture => (
-                               <div key={lecture.id} className="flex flex-col md:flex-row md:items-center justify-between text-sm p-3 bg-slate-800/60 rounded-md gap-3">
+                               <div key={lecture.id} className="flex flex-col md:flex-row md:items-center justify-between text-sm p-3 bg-slate-700/50 rounded-md gap-3">
                                    <div className="flex-grow font-medium text-slate-200">{lecture.name}</div>
                                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-slate-400 text-xs">
-                                       {lecture.platform && lecture.platform !== "Other" && (
+                                       {lecture.platform && (
                                          <div className="flex items-center gap-1.5" title="Platform">
                                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                              <span>{lecture.platform}</span>
@@ -197,25 +199,30 @@ const SubjectItem: React.FC<SubjectItemProps> = ({ subject, onUpdate, onDelete }
                                    <div className="flex items-center justify-between md:justify-end gap-3 shrink-0">
                                        <LectureStatusChanger lecture={lecture} onChange={(newStatus) => handleLectureStatusChange(chapter.id, lecture.id, newStatus)} />
                                        <div className="flex items-center">
-                                           <button onClick={() => openLectureModal(chapter.id, lecture)} className="p-1 text-slate-400 hover:text-cyan-400" title="Edit Lecture Details"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg></button>
+                                           {lecture.videoUrl && (
+                                              <a href={lecture.videoUrl} target="_blank" rel="noopener noreferrer" className="p-1 text-slate-400 hover:text-cyan-400" title="Open Video Link">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" /></svg>
+                                              </a>
+                                            )}
+                                           <button onClick={() => openLectureModal(chapter.id, lecture)} className="p-1 text-slate-400 hover:text-sky-400" title="Edit Lecture"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg></button>
                                            <button onClick={() => handleDeleteLecture(chapter.id, lecture.id)} className="p-1 text-slate-400 hover:text-red-400" title="Delete Lecture"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
                                        </div>
                                    </div>
                                </div>
                            ))}
                         </div>
-                    ) : <p className="text-slate-400 text-sm italic py-2">No lectures added for this chapter.</p>}
+                    ) : <p className="text-slate-400 text-sm italic">No lectures added for this chapter.</p>}
                 </div>
               ))}
             </div>
-          ) : <p className="text-slate-400 text-center py-4">No chapters added yet.</p>}
+          ) : <p className="text-slate-400 text-center">No chapters added yet.</p>}
         </div>
       )}
       
       {isAddChapterModalOpen && <AddChapterModal onClose={() => setAddChapterModalOpen(false)} onAddChapter={handleAddChapter} />}
-      {isEditSubjectModalOpen && <EditSubjectModal subject={subject} onClose={() => setEditSubjectModalOpen(false)} onSave={onUpdate} />}
       {isConfirmDeleteOpen && <ConfirmationModal title="Delete Subject" message={`Are you sure you want to delete "${subject.name}" and all its data? This action cannot be undone.`} onConfirm={() => onDelete(subject.id)} onCancel={() => setConfirmDeleteOpen(false)} />}
       {isLectureModalOpen && editingLecture && <AddOrEditLectureModal onClose={() => setLectureModalOpen(false)} onSave={(data, bulkCount) => handleAddOrUpdateLecture(editingLecture.chapterId, data, bulkCount)} lecture={editingLecture.lecture} />}
+      {isEditSubjectModalOpen && <EditSubjectModal onClose={() => setEditSubjectModalOpen(false)} onSave={(updatedSub) => { onUpdate(updatedSub); setEditSubjectModalOpen(false); }} subject={subject} />}
     </div>
   );
 };

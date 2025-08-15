@@ -10,12 +10,14 @@ const QBankItem: React.FC<QBankItemProps> = ({ subject, onUpdate }) => {
   const [qbankData, setQBankData] = useState<QBank>({
     totalQuestions: subject.qbank?.totalQuestions || 0,
     solvedQuestions: subject.qbank?.solvedQuestions || 0,
+    pdfUrl: subject.qbank?.pdfUrl || '',
   });
 
   useEffect(() => {
     setQBankData({
         totalQuestions: subject.qbank?.totalQuestions || 0,
         solvedQuestions: subject.qbank?.solvedQuestions || 0,
+        pdfUrl: subject.qbank?.pdfUrl || '',
     });
   }, [subject.qbank]);
 
@@ -26,8 +28,12 @@ const QBankItem: React.FC<QBankItemProps> = ({ subject, onUpdate }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const numValue = parseInt(value, 10);
-    setQBankData(prev => ({ ...prev, [name]: isNaN(numValue) ? 0 : numValue }));
+    if (name === 'pdfUrl') {
+      setQBankData(prev => ({ ...prev, [name]: value }));
+    } else {
+      const numValue = parseInt(value, 10);
+      setQBankData(prev => ({ ...prev, [name]: isNaN(numValue) ? 0 : numValue }));
+    }
   };
   
   const handleSave = () => {
@@ -40,7 +46,8 @@ const QBankItem: React.FC<QBankItemProps> = ({ subject, onUpdate }) => {
   };
   
   const hasChanged = qbankData.totalQuestions !== (subject.qbank?.totalQuestions || 0) || 
-                     qbankData.solvedQuestions !== (subject.qbank?.solvedQuestions || 0);
+                     qbankData.solvedQuestions !== (subject.qbank?.solvedQuestions || 0) ||
+                     qbankData.pdfUrl !== (subject.qbank?.pdfUrl || '');
 
   return (
     <div className="bg-slate-800 rounded-lg shadow-lg p-5 border border-slate-700/50 flex flex-col space-y-4">
@@ -82,8 +89,31 @@ const QBankItem: React.FC<QBankItemProps> = ({ subject, onUpdate }) => {
             />
         </div>
       </div>
+
+      <div>
+          <label htmlFor={`pdfUrl-${subject.id}`} className="block text-sm font-medium text-slate-300 mb-1">PDF URL (Optional)</label>
+          <input
+              id={`pdfUrl-${subject.id}`}
+              name="pdfUrl"
+              type="url"
+              value={qbankData.pdfUrl}
+              onChange={handleInputChange}
+              className="w-full bg-slate-900 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              placeholder="https://drive.google.com/..."
+          />
+      </div>
       
-      <div className="pt-2">
+      <div className="pt-2 flex items-center space-x-2">
+        {subject.qbank?.pdfUrl && (
+          <a
+            href={subject.qbank.pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 text-center bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all"
+          >
+            View PDF
+          </a>
+        )}
         <button
             onClick={handleSave}
             disabled={!hasChanged}

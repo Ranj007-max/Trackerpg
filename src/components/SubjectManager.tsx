@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Subject } from '../types';
+import { Subject, LectureStatus } from '../types';
 import { MBBS_SUBJECTS } from '../constants';
 import AddSubjectModal from './modals/AddSubjectModal';
 import BulkAddModal from './modals/BulkAddModal';
@@ -105,7 +105,7 @@ const SubjectManager: React.FC<SubjectManagerProps> = ({ subjects, setSubjects }
                 platform: newLecture.platform || '',
                 faculty: newLecture.faculty || '',
                 date: new Date().toISOString().split('T')[0],
-                status: 'Completed', // Default status for bulk-added lectures
+                status: LectureStatus.Completed, // Default status for bulk-added lectures
               });
             }
           });

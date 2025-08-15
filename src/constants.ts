@@ -25,3 +25,5 @@ export const MBBS_SUBJECTS = [
 ];
 
 export const MBBS_YEARS = ["1st Year", "2nd Year", "3rd Year", "Final Year", "Intern", "Post-Intern"];
+
+export const PLATFORMS = ["Marrow", "PrepLadder", "DAMS", "Cerebellum", "E-Gurukul", "Other"];

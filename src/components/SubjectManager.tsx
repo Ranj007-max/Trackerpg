@@ -12,7 +12,7 @@ interface SubjectManagerProps {
 const SubjectManager: React.FC<SubjectManagerProps> = ({ subjects, setSubjects }) => {
   const [isAddSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
 
-  const addSubject = (subjectName: string) => {
+  const addSubject = (subjectName: string, totalLectures?: number) => {
     if (subjects.some(s => s.name === subjectName)) {
       alert("Subject already exists!");
       return;
@@ -21,6 +21,7 @@ const SubjectManager: React.FC<SubjectManagerProps> = ({ subjects, setSubjects }
       id: Date.now().toString(),
       name: subjectName,
       chapters: [],
+      totalLectures: totalLectures && totalLectures > 0 ? totalLectures : undefined,
     };
     setSubjects(prev => [...prev, newSubject].sort((a,b) => a.name.localeCompare(b.name)));
   };
@@ -43,9 +44,10 @@ const SubjectManager: React.FC<SubjectManagerProps> = ({ subjects, setSubjects }
         <h2 className="text-3xl font-bold text-slate-100">Syllabus Manager</h2>
         <button
           onClick={() => setAddSubjectModalOpen(true)}
-          className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105"
+          className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105 flex items-center gap-2"
         >
-          + Add Subject
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+          Add Subject
         </button>
       </div>
 

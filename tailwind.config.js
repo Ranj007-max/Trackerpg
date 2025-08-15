@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors');
+
 export default {
   content: [
     "./index.html",
@@ -6,6 +8,10 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        cyan: colors.cyan,
+        fuchsia: colors.fuchsia,
+      },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },

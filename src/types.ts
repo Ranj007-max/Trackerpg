@@ -1,7 +1,8 @@
 export enum LectureStatus {
   NotStarted = 'Not Started',
-  InProgress = 'In Progress',
+  Started = 'Started',
   Completed = 'Completed',
+  Revision = 'Revision',
 }
 
 export interface Lecture {
@@ -23,6 +24,7 @@ export interface Subject {
   id: string;
   name: string;
   chapters: Chapter[];
+  totalLectures?: number;
 }
 
 export interface UserProfile {

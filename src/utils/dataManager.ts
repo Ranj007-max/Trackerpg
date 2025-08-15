@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Subject, UserProfile } from '../types';
+import { Subject, UserProfile, LectureStatus } from '../types';
 
 export const downloadDataAsJson = (data: Subject[], fileName: string = 'trackerpg_data.json') => {
   const jsonString = `data:text/json;charset=utf-t,${encodeURIComponent(
@@ -52,7 +52,7 @@ export const downloadDataAsPdf = (subjects: Subject[], profile: UserProfile, fil
   subjects.forEach(subject => {
       subject.chapters.forEach(chapter => {
           totalLectures += chapter.lectures.length;
-          completedLectures += chapter.lectures.filter(l => l.status === 'Completed').length;
+          completedLectures += chapter.lectures.filter(l => l.status === LectureStatus.Completed || l.status === LectureStatus.Revision).length;
       });
   });
   const overallPercentage = totalLectures > 0 ? Math.round((completedLectures / totalLectures) * 100) : 0;
@@ -81,7 +81,7 @@ export const downloadDataAsPdf = (subjects: Subject[], profile: UserProfile, fil
     let subjectCompleted = 0;
     const chapterData = subject.chapters.map(chapter => {
       const chapterTotal = chapter.lectures.length;
-      const chapterCompleted = chapter.lectures.filter(l => l.status === 'Completed').length;
+      const chapterCompleted = chapter.lectures.filter(l => l.status === LectureStatus.Completed || l.status === LectureStatus.Revision).length;
       subjectLectures += chapterTotal;
       subjectCompleted += chapterCompleted;
       const chapterProgress = chapterTotal > 0 ? `${Math.round((chapterCompleted / chapterTotal) * 100)}%` : '0%';

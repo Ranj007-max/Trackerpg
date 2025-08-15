@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
 import { Lecture, LectureStatus } from '../../types';
+import { PLATFORMS } from '../../constants';
 
 interface AddOrEditLectureModalProps {
   onClose: () => void;
@@ -13,7 +14,7 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
   const [formData, setFormData] = useState({
     name: lecture?.name || '',
     date: lecture?.date || new Date().toISOString().split('T')[0],
-    platform: lecture?.platform || '',
+    platform: lecture?.platform || PLATFORMS[0],
     faculty: lecture?.faculty || '',
     status: lecture?.status || LectureStatus.NotStarted,
   });
@@ -39,11 +40,11 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
   };
 
   return (
-    <Modal title={isEditMode ? 'Edit Lecture' : 'Add Lecture(s)'} onClose={onClose} size="lg">
+    <Modal title={isEditMode ? 'Edit Lecture Details' : 'Add Lecture(s)'} onClose={onClose} size="lg">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-1">Lecture Name {bulkCount > 1 && '(Prefix)'}</label>
-          <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3" autoFocus />
+          <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500" autoFocus />
         </div>
 
         {!isEditMode && (
@@ -56,7 +57,9 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label htmlFor="platform" className="block text-sm font-medium text-slate-300 mb-1">Platform</label>
-              <input id="platform" name="platform" type="text" value={formData.platform} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3" placeholder="e.g., Marrow" />
+              <select id="platform" name="platform" value={formData.platform} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                {PLATFORMS.map(p => <option key={p} value={p}>{p}</option>)}
+              </select>
             </div>
             <div>
               <label htmlFor="faculty" className="block text-sm font-medium text-slate-300 mb-1">Faculty</label>
@@ -68,7 +71,7 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
             </div>
             <div>
               <label htmlFor="status" className="block text-sm font-medium text-slate-300 mb-1">Status</label>
-              <select id="status" name="status" value={formData.status} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3">
+              <select id="status" name="status" value={formData.status} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500">
                 {Object.values(LectureStatus).map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
@@ -76,7 +79,7 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
 
         <div className="flex justify-end space-x-3 pt-4">
           <button type="button" onClick={onClose} className="px-4 py-2 rounded-md bg-slate-600 hover:bg-slate-500 transition-colors">Cancel</button>
-          <button type="submit" className="px-4 py-2 rounded-md bg-sky-500 hover:bg-sky-600 transition-colors font-semibold">
+          <button type="submit" className="px-4 py-2 rounded-md bg-cyan-500 hover:bg-cyan-600 transition-colors font-semibold">
             {isEditMode ? 'Save Changes' : `Add ${bulkCount > 1 ? `${bulkCount} Lectures` : 'Lecture'}`}
           </button>
         </div>

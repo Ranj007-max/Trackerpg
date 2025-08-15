@@ -1,17 +1,18 @@
 import React, { useMemo } from 'react';
 import { Subject, LectureStatus } from '../types';
+import ProgressiveBar from './ProgressiveBar';
 
 interface DashboardProps {
   subjects: Subject[];
 }
 
 const StatCard: React.FC<{ title: string; value: string | number; icon: JSX.Element; color: string; }> = ({ title, value, icon, color }) => (
-    <div className="bg-slate-800 p-6 rounded-lg shadow-lg flex items-center space-x-4">
+    <div className="bg-slate-800 p-6 rounded-xl shadow-lg flex items-center space-x-4 border border-slate-700/50">
         <div className={`p-3 rounded-full ${color}`}>
             {icon}
         </div>
         <div>
-            <h3 className="text-lg font-semibold text-slate-400">{title}</h3>
+            <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">{title}</h3>
             <p className="text-3xl font-bold text-slate-100">{value}</p>
         </div>
     </div>
@@ -21,37 +22,46 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
 
   const analysis = useMemo(() => {
     let totalLectures = 0;
+    let startedLectures = 0;
     let completedLectures = 0;
-    let inProgressSubjects = 0;
-    const subjectProgress: { name: string; percentage: number, completed: number, total: number }[] = [];
+    let revisionLectures = 0;
+    
+    const subjectProgress: { name: string; stats: { [key in LectureStatus]: number }; total: number; target: number; }[] = [];
 
     subjects.forEach(subject => {
-      let subjectTotal = 0;
-      let subjectCompleted = 0;
-      subject.chapters.forEach(chapter => {
-        subjectTotal += chapter.lectures.length;
-        subjectCompleted += chapter.lectures.filter(l => l.status === LectureStatus.Completed).length;
-      });
-      totalLectures += subjectTotal;
-      completedLectures += subjectCompleted;
-      if (subjectTotal > 0) {
-        if(subjectCompleted > 0) {
-            inProgressSubjects++;
-        }
+      const lectures = subject.chapters.flatMap(c => c.lectures);
+      const subjectStats = {
+          [LectureStatus.NotStarted]: lectures.filter(l => l.status === LectureStatus.NotStarted).length,
+          [LectureStatus.Started]: lectures.filter(l => l.status === LectureStatus.Started).length,
+          [LectureStatus.Completed]: lectures.filter(l => l.status === LectureStatus.Completed).length,
+          [LectureStatus.Revision]: lectures.filter(l => l.status === LectureStatus.Revision).length,
+      };
+
+      startedLectures += subjectStats[LectureStatus.Started];
+      completedLectures += subjectStats[LectureStatus.Completed];
+      revisionLectures += subjectStats[LectureStatus.Revision];
+      totalLectures += lectures.length;
+
+      if (lectures.length > 0) {
         subjectProgress.push({
           name: subject.name,
-          completed: subjectCompleted,
-          total: subjectTotal,
-          percentage: Math.round((subjectCompleted / subjectTotal) * 100),
+          stats: subjectStats,
+          total: lectures.length,
+          target: subject.totalLectures || lectures.length,
         });
       }
     });
-
-    const overallPercentage = totalLectures > 0 ? Math.round((completedLectures / totalLectures) * 100) : 0;
     
-    subjectProgress.sort((a, b) => b.percentage - a.percentage);
+    const totalCompletedOrRevision = completedLectures + revisionLectures;
+    const overallPercentage = totalLectures > 0 ? Math.round((totalCompletedOrRevision / totalLectures) * 100) : 0;
+    
+    subjectProgress.sort((a, b) => {
+        const aProgress = a.target > 0 ? (a.stats[LectureStatus.Completed] + a.stats[LectureStatus.Revision]) / a.target : 0;
+        const bProgress = b.target > 0 ? (b.stats[LectureStatus.Completed] + b.stats[LectureStatus.Revision]) / b.target : 0;
+        return bProgress - aProgress;
+    });
 
-    return { totalLectures, completedLectures, overallPercentage, subjectProgress, inProgressSubjects };
+    return { totalLectures, startedLectures, completedLectures, revisionLectures, overallPercentage, subjectProgress };
   }, [subjects]);
   
   if (subjects.length === 0) {
@@ -64,52 +74,61 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in">
       <h2 className="text-3xl font-bold text-slate-100">Preparation Dashboard</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
             title="Overall Progress" 
             value={`${analysis.overallPercentage}%`}
-            color="bg-sky-500/30"
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-sky-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+            color="bg-cyan-500/20"
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
         />
         <StatCard 
-            title="Lectures Completed" 
-            value={`${analysis.completedLectures} / ${analysis.totalLectures}`}
-            color="bg-emerald-500/30"
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" /></svg>}
+            title="Completed" 
+            value={analysis.completedLectures}
+            color="bg-emerald-500/20"
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 13l4 4L19 7" /></svg>}
         />
         <StatCard 
-            title="Subjects Tracked" 
-            value={subjects.length}
-            color="bg-indigo-500/30"
+            title="In Revision" 
+            value={analysis.revisionLectures}
+            color="bg-fuchsia-500/20"
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-fuchsia-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5M4 18v-5h5m11-4h-5v5m5-5v-5h-5" /></svg>}
+        />
+         <StatCard 
+            title="Lectures Logged" 
+            value={analysis.totalLectures}
+            color="bg-indigo-500/20"
             icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}
-        />
-        <StatCard 
-            title="Subjects In Progress" 
-            value={analysis.inProgressSubjects}
-            color="bg-amber-500/30"
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}
         />
       </div>
 
-      <div className="bg-slate-800 p-6 rounded-lg shadow-lg">
+      <div className="bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-700/50">
         <h3 className="text-xl font-semibold text-slate-100 mb-6">Subject-wise Progress</h3>
-        <div className="space-y-4">
-            {analysis.subjectProgress.map(subject => (
-                <div key={subject.name}>
-                    <div className="flex justify-between items-center mb-1">
-                        <span className="font-medium text-slate-300">{subject.name}</span>
-                        <span className="text-sm font-semibold text-sky-300">{subject.percentage}% ({subject.completed}/{subject.total})</span>
+        <div className="space-y-5">
+            {analysis.subjectProgress.map(sub => {
+                const completed = sub.stats[LectureStatus.Completed] + sub.stats[LectureStatus.Revision];
+                const percentage = sub.target > 0 ? Math.round((completed / sub.target) * 100) : 0;
+                return (
+                    <div key={sub.name}>
+                        <div className="flex justify-between items-center mb-1.5">
+                            <span className="font-medium text-slate-300">{sub.name}</span>
+                            <span className="text-sm font-semibold text-cyan-300">{percentage}% ({completed}/{sub.target})</span>
+                        </div>
+                        <ProgressiveBar stats={sub.stats} total={sub.target} />
                     </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2.5">
-                        <div className="bg-sky-500 h-2.5 rounded-full" style={{ width: `${subject.percentage}%`, transition: 'width 0.5s ease-in-out' }}></div>
-                    </div>
-                </div>
-            ))}
+                )
+            })}
         </div>
       </div>
+      <style>{`
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+      `}</style>
     </div>
   );
 };

@@ -62,7 +62,7 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
     <Modal title={isEditMode ? 'Edit Lecture Details' : 'Add Lecture(s)'} onClose={onClose} size="lg">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark mb-1">Lecture Name {bulkCount > 1 && '(Prefix)'}</label>
+          <label htmlFor="name" className="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark mb-1">Lecture Name {Number(bulkCount) > 1 && '(Prefix)'}</label>
           <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} className="w-full bg-primary-light dark:bg-primary-dark border border-border-color rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark" autoFocus />
         </div>
 
@@ -109,7 +109,7 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
         <div className="flex justify-end space-x-3 pt-4">
           <button type="button" onClick={onClose} className="px-4 py-2 rounded-md bg-secondary-light dark:bg-secondary-dark hover:bg-primary-light dark:hover:bg-primary-dark transition-colors border border-border-color">Cancel</button>
           <button type="submit" className="px-4 py-2 rounded-md bg-accent-light dark:bg-accent-dark hover:opacity-90 text-white transition-colors font-semibold">
-            {isEditMode ? 'Save Changes' : `Add ${bulkCount > 1 ? `${bulkCount} Lectures` : 'Lecture'}`}
+            {isEditMode ? 'Save Changes' : `Add ${Number(bulkCount) > 1 ? `${bulkCount} Lectures` : 'Lecture'}`}
           </button>
         </div>
       </form>

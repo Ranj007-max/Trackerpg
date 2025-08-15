@@ -5,7 +5,6 @@ import Dashboard from './components/Dashboard';
 import SubjectManager from './components/SubjectManager';
 import { downloadDataAsJson, uploadDataFromJson, downloadDataAsPdf } from './utils/dataManager';
 import ProfileModal from './components/modals/ProfileModal';
-import ReloadPrompt from './components/ReloadPrompt';
 
 type View = 'dashboard' | 'manager';
 
@@ -52,7 +51,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 font-sans text-slate-100">
-      <ReloadPrompt />
       <header className="bg-slate-800/50 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
           <div className="flex items-center space-x-3">

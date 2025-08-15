@@ -18,6 +18,7 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
     faculty: lecture?.faculty || '',
     status: lecture?.status || LectureStatus.NotStarted,
     videoUrl: lecture?.videoUrl || '',
+    tags: lecture?.tags?.join(', ') || '',
   });
   const [bulkCount, setBulkCount] = useState(1);
   
@@ -36,7 +37,11 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
         alert("Lecture name is required.");
         return;
     }
-    onSave({ id: lecture?.id, ...formData }, bulkCount);
+    const finalData = {
+      ...formData,
+      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+    };
+    onSave({ id: lecture?.id, ...finalData }, bulkCount);
     onClose();
   };
 
@@ -81,6 +86,11 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
         <div>
           <label htmlFor="videoUrl" className="block text-sm font-medium text-slate-300 mb-1">Video URL (Optional)</label>
           <input id="videoUrl" name="videoUrl" type="url" value={formData.videoUrl} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="https://t.me/your_video_link" />
+        </div>
+
+        <div>
+          <label htmlFor="tags" className="block text-sm font-medium text-slate-300 mb-1">Tags (comma-separated)</label>
+          <input id="tags" name="tags" type="text" value={formData.tags} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="e.g., High Yield, Volatile, Must-do" />
         </div>
 
         <div className="flex justify-end space-x-3 pt-4">

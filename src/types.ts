@@ -13,6 +13,8 @@ export interface Lecture {
   faculty: string;
   status: LectureStatus;
   videoUrl?: string;
+  tags?: string[];
+  isBookmarked?: boolean;
 }
 
 export interface Chapter {

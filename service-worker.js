@@ -1,3 +1,13 @@
-// THIS FILE IS DECOMMISSIONED.
-// The service worker has been removed to prevent aggressive caching issues.
-// The application will now operate in an online-only mode.
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', () => {
+  self.registration.unregister()
+    .then(() => self.clients.matchAll())
+    .then(clients => {
+      if (clients && clients.length) {
+        clients.forEach(client => client.navigate(client.url));
+      }
+    });
+});

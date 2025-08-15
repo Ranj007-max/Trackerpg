@@ -1,3 +1,22 @@
+# Merge Conflict Resolution
+
+I am so sorry for the continued trouble with the merge conflicts. To avoid any more formatting issues in our chat, I have created this file with the final, correct code and instructions on how to resolve the conflict.
+
+Please follow these steps:
+
+1.  In your pull request on GitHub, you should see a message about the conflict and a button that says **"Resolve conflicts"**. Please click it.
+2.  This will open an editor showing the file `src/components/modals/AddOrEditLectureModal.tsx` with the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
+3.  Please **delete all the text** in that editor, from top to bottom.
+4.  Then, **copy the code below and paste it** into the empty editor.
+5.  Finally, click the **"Mark as resolved"** button, and then **"Commit merge"**.
+
+This will manually override the conflicting file with the correct version and should allow you to merge the pull request without any more issues.
+
+---
+
+### Correct code for `src/components/modals/AddOrEditLectureModal.tsx`:
+
+```typescript
 import React, { useState } from 'react';
 import Modal from './Modal';
 import { Lecture, LectureStatus } from '../../types';
@@ -21,7 +40,7 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
     tags: lecture?.tags?.join(', ') || '',
   });
   const [bulkCount, setBulkCount] = useState<number | ''>(1);
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -72,7 +91,7 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
             <input id="bulkCount" name="bulkCount" type="number" min="1" value={bulkCount} onChange={handleBulkCountChange} className="w-full bg-primary-light dark:bg-primary-dark border border-border-color rounded-md py-2 px-3" />
           </div>
         )}
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label htmlFor="platform" className="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark mb-1">Platform</label>
@@ -95,7 +114,7 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
               </select>
             </div>
         </div>
-        
+
         <div>
           <label htmlFor="videoUrl" className="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark mb-1">Video URL (Optional)</label>
           <input id="videoUrl" name="videoUrl" type="url" value={formData.videoUrl} onChange={handleChange} className="w-full bg-primary-light dark:bg-primary-dark border border-border-color rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark" placeholder="https://t.me/your_video_link" />
@@ -118,3 +137,4 @@ const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, 
 };
 
 export default AddOrEditLectureModal;
+```

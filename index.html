@@ -28,16 +28,5 @@
   <body class="bg-slate-900">
     <div id="root"></div>
     <script type="module" src="/src/index.tsx"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(function(registration) {
-            console.log('Service Worker registered to execute unregister process.');
-          }).catch(function(error) {
-            console.log('Service Worker registration failed:', error);
-          });
-      }
-    </script>
-  <script type="module" src="/index.tsx"></script>
 </body>
 </html>

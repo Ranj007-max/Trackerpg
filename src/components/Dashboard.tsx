@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Subject, LectureStatus } from '../types';
 import ProgressiveBar from './ProgressiveBar';
+import ProgressChart from './ProgressChart';
 
 interface DashboardProps {
   subjects: Subject[];
@@ -83,6 +84,10 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
   return (
     <div className="space-y-8 animate-fade-in">
       <h2 className="text-3xl font-bold text-slate-100">Preparation Dashboard</h2>
+
+      <div className="mb-8">
+        <ProgressChart subjects={subjects} />
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
         <StatCard 

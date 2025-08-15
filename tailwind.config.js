@@ -10,22 +10,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Light theme colors
-        'primary-light': '#FFFFFF',
-        'secondary-light': '#F0F2F5',
-        'accent-light': '#4A90E2',
-        'text-primary-light': '#1F2937',
-        'text-secondary-light': '#6B7280',
+        'primary-light': 'var(--background-primary-light)',
+        'secondary-light': 'var(--background-secondary-light)',
+        'accent-light': 'var(--accent-light)',
+        'text-primary-light': 'var(--text-primary-light)',
+        'text-secondary-light': 'var(--text-secondary-light)',
+        'border-color-light': 'var(--border-color-light)',
 
-        // Dark theme colors
-        'primary-dark': '#1A1A1A',
-        'secondary-dark': '#2A2A2A',
-        'accent-dark': '#63B3ED',
-        'text-primary-dark': '#E5E7EB',
-        'text-secondary-dark': '#9CA3AF',
-
-        cyan: colors.cyan,
-        fuchsia: colors.fuchsia,
+        'primary-dark': 'var(--background-primary-dark)',
+        'secondary-dark': 'var(--background-secondary-dark)',
+        'accent-dark': 'var(--accent-dark)',
+        'text-primary-dark': 'var(--text-primary-dark)',
+        'text-secondary-dark': 'var(--text-secondary-dark)',
+        'border-color-dark': 'var(--border-color-dark)',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

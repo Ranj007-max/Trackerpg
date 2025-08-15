@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      filename: `sw-${Date.now()}.js`,
       registerType: 'autoUpdate',
       workbox: {
         skipWaiting: true,

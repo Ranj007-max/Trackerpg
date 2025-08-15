@@ -5,7 +5,7 @@ interface DashboardProps {
   subjects: Subject[];
 }
 
-const StatCard: React.FC<{ title: string; value: string | number; icon: JSX.Element; color: string; }> = ({ title, value, icon, color }) => (
+const StatCard: React.FC<{ title: string; value: string | number; icon: React.ReactNode; color: string; }> = ({ title, value, icon, color }) => (
     <div className="bg-slate-800 p-6 rounded-lg shadow-lg flex items-center space-x-4">
         <div className={`p-3 rounded-full ${color}`}>
             {icon}

@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       includeAssets: ['logo192.png', 'logo512.png'],
       manifest: {
         "short_name": "TrackerPG",
@@ -29,6 +29,9 @@ export default defineConfig({
         "theme_color": "#0f172a",
         "background_color": "#0f172a",
         "description": "A tool to track your NEET PG syllabus preparation."
+      },
+      devOptions: {
+        enabled: true
       }
     })
   ],

@@ -1,3 +1,3 @@
-// This file is intentionally left blank.
-// The service worker is now automatically generated and managed by vite-plugin-pwa.
-// This change ensures that the PWA can update correctly upon new deployments.
+// THIS FILE IS DECOMMISSIONED.
+// The service worker has been removed to prevent aggressive caching issues.
+// The application will now operate in an online-only mode.

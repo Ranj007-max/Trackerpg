@@ -5,7 +5,6 @@ import Dashboard from './components/Dashboard';
 import SubjectManager from './components/SubjectManager';
 import { downloadDataAsJson, uploadDataFromJson, downloadDataAsPdf } from './utils/dataManager';
 import ProfileModal from './components/modals/ProfileModal';
-import ReloadPrompt from './components/ReloadPrompt';
 
 type View = 'dashboard' | 'manager';
 
@@ -98,7 +97,6 @@ const App: React.FC = () => {
          <p>TrackerPG - Your Personal NEET PG Syllabus Companion</p>
        </footer>
        {isProfileModalOpen && <ProfileModal onClose={() => setProfileModalOpen(false)} onSave={setProfile} currentProfile={profile} />}
-       <ReloadPrompt />
     </div>
   );
 };

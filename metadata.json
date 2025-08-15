@@ -1,0 +1,5 @@
+{
+  "name": "TrackerPG",
+  "description": "A personal progress tracker for NEET PG medical entrance exam preparation, allowing users to manage subjects, chapters, and lectures.",
+  "requestFramePermissions": []
+}

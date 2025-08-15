@@ -1,0 +1,89 @@
+
+import React, { useState } from 'react';
+import Modal from './Modal';
+import { Lecture, LectureStatus } from '../../types';
+
+interface AddOrEditLectureModalProps {
+  onClose: () => void;
+  onSave: (lecture: Partial<Lecture>, bulkCount: number) => void;
+  lecture?: Lecture;
+}
+
+const AddOrEditLectureModal: React.FC<AddOrEditLectureModalProps> = ({ onClose, onSave, lecture }) => {
+  const isEditMode = !!lecture;
+  const [formData, setFormData] = useState({
+    name: lecture?.name || '',
+    date: lecture?.date || new Date().toISOString().split('T')[0],
+    platform: lecture?.platform || '',
+    faculty: lecture?.faculty || '',
+    status: lecture?.status || LectureStatus.NotStarted,
+  });
+  const [bulkCount, setBulkCount] = useState(1);
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if(bulkCount > 1 && !formData.name) {
+        alert("Lecture name prefix is required for bulk add.");
+        return;
+    }
+    if(bulkCount === 1 && !formData.name){
+        alert("Lecture name is required.");
+        return;
+    }
+    onSave({ id: lecture?.id, ...formData }, bulkCount);
+    onClose();
+  };
+
+  return (
+    <Modal title={isEditMode ? 'Edit Lecture' : 'Add Lecture(s)'} onClose={onClose} size="lg">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-1">Lecture Name {bulkCount > 1 && '(Prefix)'}</label>
+          <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3" autoFocus />
+        </div>
+
+        {!isEditMode && (
+          <div>
+            <label htmlFor="bulkCount" className="block text-sm font-medium text-slate-300 mb-1">Number of Lectures</label>
+            <input id="bulkCount" name="bulkCount" type="number" min="1" value={bulkCount} onChange={e => setBulkCount(Math.max(1, parseInt(e.target.value) || 1))} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3" />
+          </div>
+        )}
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="platform" className="block text-sm font-medium text-slate-300 mb-1">Platform</label>
+              <input id="platform" name="platform" type="text" value={formData.platform} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3" placeholder="e.g., Marrow" />
+            </div>
+            <div>
+              <label htmlFor="faculty" className="block text-sm font-medium text-slate-300 mb-1">Faculty</label>
+              <input id="faculty" name="faculty" type="text" value={formData.faculty} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3" placeholder="e.g., Dr. Rakesh Nair" />
+            </div>
+            <div>
+              <label htmlFor="date" className="block text-sm font-medium text-slate-300 mb-1">Date</label>
+              <input id="date" name="date" type="date" value={formData.date} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3" />
+            </div>
+            <div>
+              <label htmlFor="status" className="block text-sm font-medium text-slate-300 mb-1">Status</label>
+              <select id="status" name="status" value={formData.status} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3">
+                {Object.values(LectureStatus).map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </div>
+        </div>
+
+        <div className="flex justify-end space-x-3 pt-4">
+          <button type="button" onClick={onClose} className="px-4 py-2 rounded-md bg-slate-600 hover:bg-slate-500 transition-colors">Cancel</button>
+          <button type="submit" className="px-4 py-2 rounded-md bg-sky-500 hover:bg-sky-600 transition-colors font-semibold">
+            {isEditMode ? 'Save Changes' : `Add ${bulkCount > 1 ? `${bulkCount} Lectures` : 'Lecture'}`}
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
+export default AddOrEditLectureModal;

@@ -54,7 +54,7 @@ const App: React.FC = () => {
       <header className="bg-slate-800/50 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
           <div className="flex items-center space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
             <div>
               <h1 className="text-xl font-bold text-slate-50">TrackerPG</h1>
               <p className="text-xs text-slate-400">Welcome, {profile.name || 'Guest'}</p>
@@ -80,8 +80,8 @@ const App: React.FC = () => {
               </button>
             </div>
             <div className="bg-slate-700 p-1 rounded-lg flex space-x-1">
-              <button onClick={() => setView('dashboard')} className={`px-3 py-1 text-sm font-semibold rounded-md transition-colors ${view === 'dashboard' ? 'bg-sky-500 text-white' : 'hover:bg-slate-600'}`}>Dashboard</button>
-              <button onClick={() => setView('manager')} className={`px-3 py-1 text-sm font-semibold rounded-md transition-colors ${view === 'manager' ? 'bg-sky-500 text-white' : 'hover:bg-slate-600'}`}>Manager</button>
+              <button onClick={() => setView('dashboard')} className={`px-3 py-1 text-sm font-semibold rounded-md transition-colors ${view === 'dashboard' ? 'bg-cyan-500 text-white' : 'hover:bg-slate-600'}`}>Dashboard</button>
+              <button onClick={() => setView('manager')} className={`px-3 py-1 text-sm font-semibold rounded-md transition-colors ${view === 'manager' ? 'bg-cyan-500 text-white' : 'hover:bg-slate-600'}`}>Manager</button>
             </div>
              <button onClick={() => setProfileModalOpen(true)} title="Edit Profile" className="p-2 rounded-full bg-slate-700 hover:bg-slate-600 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>

@@ -38,7 +38,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onSave, currentPro
             type="text"
             value={profile.name}
             onChange={handleChange}
-            className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
             placeholder="e.g., Dr. Jane Doe"
             autoFocus
           />
@@ -51,7 +51,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onSave, currentPro
             type="text"
             value={profile.targetYear}
             onChange={handleChange}
-            className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
             placeholder="e.g., 2025"
           />
         </div>
@@ -62,7 +62,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onSave, currentPro
             name="mbbsYear"
             value={profile.mbbsYear}
             onChange={handleChange}
-            className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
           >
             {MBBS_YEARS.map(year => (
               <option key={year} value={year}>{year}</option>
@@ -71,7 +71,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onSave, currentPro
         </div>
         <div className="flex justify-end space-x-3 pt-2">
           <button type="button" onClick={onClose} className="px-4 py-2 rounded-md bg-slate-600 hover:bg-slate-500 transition-colors">Cancel</button>
-          <button type="submit" className="px-4 py-2 rounded-md bg-sky-500 hover:bg-sky-600 transition-colors font-semibold">Save Profile</button>
+          <button type="submit" className="px-4 py-2 rounded-md bg-cyan-500 hover:bg-cyan-600 transition-colors font-semibold">Save Profile</button>
         </div>
       </form>
     </Modal>

@@ -27,14 +27,14 @@ const AddChapterModal: React.FC<AddChapterModalProps> = ({ onClose, onAddChapter
             type="text"
             value={chapterName}
             onChange={(e) => setChapterName(e.target.value)}
-            className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
             placeholder="e.g., General Anatomy"
             autoFocus
           />
         </div>
         <div className="flex justify-end space-x-3">
           <button type="button" onClick={onClose} className="px-4 py-2 rounded-md bg-slate-600 hover:bg-slate-500 transition-colors">Cancel</button>
-          <button type="submit" className="px-4 py-2 rounded-md bg-sky-500 hover:bg-sky-600 transition-colors font-semibold">Add Chapter</button>
+          <button type="submit" className="px-4 py-2 rounded-md bg-cyan-500 hover:bg-cyan-600 transition-colors font-semibold">Add Chapter</button>
         </div>
       </form>
     </Modal>

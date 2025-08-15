@@ -15,9 +15,14 @@ export interface Lecture {
 }
 
 export interface Chapter {
-  id: string;
+  id:string;
   name: string;
   lectures: Lecture[];
+}
+
+export interface QBank {
+  totalQuestions: number;
+  solvedQuestions: number;
 }
 
 export interface Subject {
@@ -25,6 +30,7 @@ export interface Subject {
   name: string;
   chapters: Chapter[];
   totalLectures?: number;
+  qbank?: QBank;
 }
 
 export interface UserProfile {

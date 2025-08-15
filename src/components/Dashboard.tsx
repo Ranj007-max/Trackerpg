@@ -25,6 +25,8 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
     let startedLectures = 0;
     let completedLectures = 0;
     let revisionLectures = 0;
+    let totalQBankQuestions = 0;
+    let solvedQBankQuestions = 0;
     
     const subjectProgress: { name: string; stats: { [key in LectureStatus]: number }; total: number; target: number; }[] = [];
 
@@ -41,6 +43,11 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
       completedLectures += subjectStats[LectureStatus.Completed];
       revisionLectures += subjectStats[LectureStatus.Revision];
       totalLectures += lectures.length;
+
+      if (subject.qbank) {
+        totalQBankQuestions += subject.qbank.totalQuestions || 0;
+        solvedQBankQuestions += subject.qbank.solvedQuestions || 0;
+      }
 
       if (lectures.length > 0 || subject.totalLectures) {
         subjectProgress.push({
@@ -61,7 +68,7 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
         return bProgress - aProgress;
     });
 
-    return { totalLectures, startedLectures, completedLectures, revisionLectures, overallPercentage, subjectProgress };
+    return { totalLectures, startedLectures, completedLectures, revisionLectures, overallPercentage, subjectProgress, totalQBankQuestions, solvedQBankQuestions };
   }, [subjects]);
   
   if (subjects.length === 0) {
@@ -77,7 +84,7 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
     <div className="space-y-8 animate-fade-in">
       <h2 className="text-3xl font-bold text-slate-100">Preparation Dashboard</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
         <StatCard 
             title="Overall Progress" 
             value={`${analysis.overallPercentage}%`}
@@ -95,6 +102,12 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
             value={analysis.revisionLectures}
             color="bg-fuchsia-500/20"
             icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-fuchsia-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5M4 18v-5h5m11-4h-5v5m5-5v-5h-5" /></svg>}
+        />
+         <StatCard 
+            title="Questions Solved" 
+            value={`${analysis.solvedQBankQuestions} / ${analysis.totalQBankQuestions}`}
+            color="bg-amber-500/20"
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
         />
          <StatCard 
             title="Lectures Logged" 

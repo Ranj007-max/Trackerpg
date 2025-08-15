@@ -5,8 +5,9 @@ import Dashboard from './components/Dashboard';
 import SubjectManager from './components/SubjectManager';
 import { downloadDataAsJson, uploadDataFromJson, downloadDataAsPdf } from './utils/dataManager';
 import ProfileModal from './components/modals/ProfileModal';
+import QBankManager from './components/qbank/QBankManager';
 
-type View = 'dashboard' | 'manager';
+type View = 'dashboard' | 'manager' | 'qbank';
 
 const App: React.FC = () => {
   const [subjects, setSubjects] = useLocalStorage<Subject[]>('trackerpg-subjects', []);
@@ -82,6 +83,7 @@ const App: React.FC = () => {
             <div className="bg-slate-700 p-1 rounded-lg flex space-x-1">
               <button onClick={() => setView('dashboard')} className={`px-3 py-1 text-sm font-semibold rounded-md transition-colors ${view === 'dashboard' ? 'bg-cyan-500 text-white' : 'hover:bg-slate-600'}`}>Dashboard</button>
               <button onClick={() => setView('manager')} className={`px-3 py-1 text-sm font-semibold rounded-md transition-colors ${view === 'manager' ? 'bg-cyan-500 text-white' : 'hover:bg-slate-600'}`}>Manager</button>
+               <button onClick={() => setView('qbank')} className={`px-3 py-1 text-sm font-semibold rounded-md transition-colors ${view === 'qbank' ? 'bg-cyan-500 text-white' : 'hover:bg-slate-600'}`}>QBank</button>
             </div>
              <button onClick={() => setProfileModalOpen(true)} title="Edit Profile" className="p-2 rounded-full bg-slate-700 hover:bg-slate-600 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
@@ -92,6 +94,7 @@ const App: React.FC = () => {
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {view === 'dashboard' && <Dashboard subjects={subjects} />}
         {view === 'manager' && <SubjectManager subjects={subjects} setSubjects={setSubjects} />}
+        {view === 'qbank' && <QBankManager subjects={subjects} setSubjects={setSubjects} />}
       </main>
        <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-slate-500 text-sm">
          <p>TrackerPG - Your Personal NEET PG Syllabus Companion</p>

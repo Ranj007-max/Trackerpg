@@ -46,7 +46,7 @@ export const downloadDataAsPdf = (subjects: Subject[], profile: UserProfile, fil
   doc.text(`Current Year: ${profile.mbbsYear || 'N/A'}`, 14, 42);
   doc.line(14, 45, 196, 45); // horizontal line
 
-  // Summary
+  // Lecture Summary
   let totalLectures = 0;
   let completedLectures = 0;
   subjects.forEach(subject => {
@@ -58,8 +58,7 @@ export const downloadDataAsPdf = (subjects: Subject[], profile: UserProfile, fil
   const overallPercentage = totalLectures > 0 ? Math.round((completedLectures / totalLectures) * 100) : 0;
 
   doc.setFontSize(16);
-  doc.text("Overall Progress", 105, 55, { align: 'center' });
-  doc.setFontSize(12);
+  doc.text("Lecture Progress", 105, 55, { align: 'center' });
   (doc as any).autoTable({
     startY: 60,
     head: [['Metric', 'Value']],
@@ -72,6 +71,34 @@ export const downloadDataAsPdf = (subjects: Subject[], profile: UserProfile, fil
     theme: 'striped',
     headStyles: { fillColor: [8, 145, 178] } // cyan-600
   });
+
+  // QBank Summary
+  let totalQBankQuestions = 0;
+  let solvedQBankQuestions = 0;
+  subjects.forEach(subject => {
+    if (subject.qbank) {
+        totalQBankQuestions += subject.qbank.totalQuestions || 0;
+        solvedQBankQuestions += subject.qbank.solvedQuestions || 0;
+    }
+  });
+
+  if (totalQBankQuestions > 0) {
+    const qbankPercentage = Math.round((solvedQBankQuestions / totalQBankQuestions) * 100);
+    let finalY = (doc as any).lastAutoTable.finalY || 100;
+    doc.setFontSize(16);
+    doc.text("QBank Progress", 105, finalY + 15, { align: 'center' });
+    (doc as any).autoTable({
+        startY: finalY + 20,
+        head: [['Metric', 'Value']],
+        body: [
+            ['Total Questions', totalQBankQuestions],
+            ['Solved Questions', solvedQBankQuestions],
+            ['Overall Completion', `${qbankPercentage}%`]
+        ],
+        theme: 'striped',
+        headStyles: { fillColor: [202, 138, 4] } // amber-600
+    });
+  }
 
   // Subject-wise details
   let finalY = (doc as any).lastAutoTable.finalY || 100;
@@ -90,6 +117,9 @@ export const downloadDataAsPdf = (subjects: Subject[], profile: UserProfile, fil
 
     const targetLectures = subject.totalLectures || subjectLectures;
     const subjectProgress = targetLectures > 0 ? `${Math.round((subjectCompleted / targetLectures) * 100)}%` : '0%';
+    const qbankProgressText = subject.qbank && subject.qbank.totalQuestions > 0 
+        ? ` | QBank: ${Math.round((subject.qbank.solvedQuestions / subject.qbank.totalQuestions) * 100)}%` 
+        : '';
     
     const requiredSpace = (chapterData.length * 10) + 25; // Estimate space needed
     if (finalY + requiredSpace > doc.internal.pageSize.height - 20) {
@@ -101,7 +131,7 @@ export const downloadDataAsPdf = (subjects: Subject[], profile: UserProfile, fil
 
     (doc as any).autoTable({
         startY: finalY,
-        head: [[`${subject.name} - Progress: ${subjectProgress}`]],
+        head: [[`${subject.name} - Lectures: ${subjectProgress}${qbankProgressText}`]],
         headStyles: { fillColor: [51, 65, 85] }, // slate-700
         body: [],
     });

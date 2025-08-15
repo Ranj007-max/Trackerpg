@@ -1,3 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* Light Theme */
+  --background-primary: #FFFFFF;
+  --background-secondary: #F0F2F5;
+  --accent: #4A90E2;
+  --text-primary: #1F2937;
+  --text-secondary: #6B7280;
+  --border-color: #D1D5DB;
+}
+
+.dark {
+  /* Dark Theme */
+  --background-primary: #1A1A1A;
+  --background-secondary: #2A2A2A;
+  --accent: #63B3ED;
+  --text-primary: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --border-color: #4B5563;
+}
+
+body {
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

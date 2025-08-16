@@ -11,13 +11,13 @@ interface DashboardProps {
 }
 
 const StatCard: React.FC<{ title: string; value: string | number; icon: React.ReactNode; color: string; }> = ({ title, value, icon, color }) => (
-    <div className="bg-slate-800 p-6 rounded-xl shadow-lg flex items-center space-x-4 border border-slate-700/50">
-        <div className={`p-3 rounded-full ${color}`}>
+    <div className="bg-background-secondary p-6 rounded-2xl shadow-sm flex items-center space-x-4 border border-border-color">
+        <div className={`p-3 rounded-xl ${color}`}>
             {icon}
         </div>
         <div>
-            <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">{title}</h3>
-            <p className="text-3xl font-bold text-slate-100">{value}</p>
+            <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">{title}</h3>
+            <p className="text-3xl font-bold text-text-primary">{value}</p>
         </div>
     </div>
 );
@@ -77,16 +77,16 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
   
   if (subjects.length === 0) {
     return (
-      <div className="text-center py-20 bg-slate-800 rounded-lg">
-        <h2 className="text-3xl font-bold text-slate-100 mb-4">Welcome to Your Dashboard!</h2>
-        <p className="text-slate-400 max-w-md mx-auto">It looks like you're just getting started. Head over to the 'Manager' tab to add your first subject and begin tracking your progress.</p>
+      <div className="text-center py-20 bg-background-secondary rounded-2xl border border-border-color">
+        <h2 className="text-3xl font-bold text-text-primary mb-4">Welcome to Your Dashboard!</h2>
+        <p className="text-text-secondary max-w-md mx-auto">It looks like you're just getting started. Head over to the 'Manager' tab to add your first subject and begin tracking your progress.</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <h2 className="text-3xl font-bold text-slate-100">Preparation Dashboard</h2>
+      <h2 className="text-3xl font-bold text-text-primary">Preparation Dashboard</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <ProgressChart subjects={subjects} />
@@ -106,36 +106,36 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
             title="Overall Progress" 
             value={`${analysis.overallPercentage}%`}
             color="bg-cyan-500/20"
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
         />
         <StatCard 
             title="Completed" 
             value={analysis.completedLectures}
             color="bg-emerald-500/20"
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 13l4 4L19 7" /></svg>}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M5 13l4 4L19 7" /></svg>}
         />
         <StatCard 
             title="In Revision" 
             value={analysis.revisionLectures}
             color="bg-fuchsia-500/20"
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-fuchsia-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5M4 18v-5h5m11-4h-5v5m5-5v-5h-5" /></svg>}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-fuchsia-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5M4 18v-5h5m11-4h-5v5m5-5v-5h-5" /></svg>}
         />
          <StatCard 
             title="Questions Solved" 
             value={`${analysis.solvedQBankQuestions} / ${analysis.totalQBankQuestions}`}
             color="bg-amber-500/20"
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
         />
          <StatCard 
             title="Lectures Logged" 
             value={analysis.totalLectures}
             color="bg-indigo-500/20"
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}
         />
       </div>
 
-      <div className="bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-700/50">
-        <h3 className="text-xl font-semibold text-slate-100 mb-6">Subject-wise Progress</h3>
+      <div className="bg-background-secondary p-6 rounded-2xl shadow-sm border border-border-color">
+        <h3 className="text-xl font-semibold text-text-primary mb-6">Subject-wise Progress</h3>
         <div className="space-y-5">
             {analysis.subjectProgress.map(sub => {
                 const completed = sub.stats[LectureStatus.Completed] + sub.stats[LectureStatus.Revision];
@@ -143,8 +143,8 @@ const Dashboard: React.FC<DashboardProps> = ({ subjects }) => {
                 return (
                     <div key={sub.name}>
                         <div className="flex justify-between items-center mb-1.5">
-                            <span className="font-medium text-slate-300">{sub.name}</span>
-                            <span className="text-sm font-semibold text-cyan-300">{percentage}% ({completed}/{sub.target})</span>
+                            <span className="font-medium text-text-secondary">{sub.name}</span>
+                            <span className="text-sm font-semibold text-accent">{percentage}% ({completed}/{sub.target})</span>
                         </div>
                         <ProgressiveBar stats={sub.stats} total={sub.target} />
                     </div>

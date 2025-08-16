@@ -25,12 +25,12 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({ onClose, onAddSubject
       {availableSubjects.length > 0 ? (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="subject" className="block text-sm font-medium text-slate-300 mb-1">Select Subject</label>
+            <label htmlFor="subject" className="block text-sm font-medium text-text-secondary mb-1">Select Subject</label>
             <select
               id="subject"
               value={selectedSubject}
               onChange={(e) => setSelectedSubject(e.target.value)}
-              className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full bg-background-primary border border-border-color rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-accent"
             >
               {availableSubjects.map(subject => (
                 <option key={subject} value={subject}>{subject}</option>
@@ -38,28 +38,28 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({ onClose, onAddSubject
             </select>
           </div>
           <div>
-            <label htmlFor="totalLectures" className="block text-sm font-medium text-slate-300 mb-1">Total Lectures (Optional)</label>
+            <label htmlFor="totalLectures" className="block text-sm font-medium text-text-secondary mb-1">Total Lectures (Optional)</label>
             <input
               id="totalLectures"
               type="number"
               min="1"
               value={totalLectures}
               onChange={(e) => setTotalLectures(e.target.value)}
-              className="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full bg-background-primary border border-border-color rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="e.g., 150"
             />
-             <p className="text-xs text-slate-400 mt-1">Set a target number of lectures for this subject.</p>
+             <p className="text-xs text-text-secondary mt-1">Set a target number of lectures for this subject.</p>
           </div>
           <div className="flex justify-end space-x-3 pt-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 rounded-md bg-slate-600 hover:bg-slate-500 transition-colors">Cancel</button>
-            <button type="submit" className="px-4 py-2 rounded-md bg-cyan-500 hover:bg-cyan-600 transition-colors font-semibold">Add Subject</button>
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-background-primary hover:bg-background-secondary transition-colors border border-border-color">Cancel</button>
+            <button type="submit" className="px-4 py-2 rounded-lg bg-accent hover:opacity-90 transition-colors font-semibold text-white">Add Subject</button>
           </div>
         </form>
       ) : (
         <div>
-          <p className="text-center text-slate-400">All subjects have been added.</p>
+          <p className="text-center text-text-secondary">All subjects have been added.</p>
            <div className="flex justify-end mt-4">
-            <button type="button" onClick={onClose} className="px-4 py-2 rounded-md bg-slate-600 hover:bg-slate-500 transition-colors">Close</button>
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-background-primary hover:bg-background-secondary transition-colors border border-border-color">Close</button>
           </div>
         </div>
       )}

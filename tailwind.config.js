@@ -1,6 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-import colors from 'tailwindcss/colors';
-
 export default {
   content: [
     "./index.html",
@@ -10,19 +8,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        'primary-light': 'var(--background-primary-light)',
-        'secondary-light': 'var(--background-secondary-light)',
-        'accent-light': 'var(--accent-light)',
-        'text-primary-light': 'var(--text-primary-light)',
-        'text-secondary-light': 'var(--text-secondary-light)',
-        'border-color-light': 'var(--border-color-light)',
-
-        'primary-dark': 'var(--background-primary-dark)',
-        'secondary-dark': 'var(--background-secondary-dark)',
-        'accent-dark': 'var(--accent-dark)',
-        'text-primary-dark': 'var(--text-primary-dark)',
-        'text-secondary-dark': 'var(--text-secondary-dark)',
-        'border-color-dark': 'var(--border-color-dark)',
+        'background-primary': 'var(--background-primary)',
+        'background-secondary': 'var(--background-secondary)',
+        'accent': 'var(--accent)',
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'border-color': 'var(--border-color)',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

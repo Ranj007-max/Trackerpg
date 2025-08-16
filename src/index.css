@@ -5,37 +5,32 @@
 @tailwind utilities;
 
 :root {
-  --background-primary-light: #f9fafb;
-  --background-secondary-light: #ffffff;
-  --accent-light: #3b82f6;
-  --text-primary-light: #1f2937;
-  --text-secondary-light: #6b7280;
-  --border-color-light: #e5e7eb;
+  --background-primary: #ffffff;
+  --background-secondary: #f5f5f7;
+  --accent: #007aff;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --border-color: #d2d2d7;
 }
 
 .dark {
-  --background-primary-dark: #111827;
-  --background-secondary-dark: #1f2937;
-  --accent-dark: #60a5fa;
-  --text-primary-dark: #f9fafb;
-  --text-secondary-dark: #9ca3af;
-  --border-color-dark: #374151;
+  --background-primary: #000000;
+  --background-secondary: #1d1d1f;
+  --accent: #0a84ff;
+  --text-primary: #f5f5f7;
+  --text-secondary: #86868b;
+  --border-color: #3a3a3c;
 }
 
 body {
-  background-color: var(--background-primary-light);
-  color: var(--text-primary-light);
-}
-
-.dark body {
-  background-color: var(--background-primary-dark);
-  color: var(--text-primary-dark);
+  background-color: var(--background-primary);
+  color: var(--text-primary);
 }
 
 .header-gradient {
-  background-image: linear-gradient(to right, var(--accent-light), #818cf8);
+  background-image: linear-gradient(to right, var(--accent), #818cf8);
 }
 
 .dark .header-gradient {
-  background-image: linear-gradient(to right, var(--accent-dark), #a78bfa);
+  background-image: linear-gradient(to right, var(--accent), #a78bfa);
 }

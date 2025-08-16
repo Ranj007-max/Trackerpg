@@ -124,7 +124,7 @@ const SubjectManager: React.FC<SubjectManagerProps> = ({ subjects, setSubjects }
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold">Syllabus Manager</h2>
+        <h2 className="text-3xl font-bold text-text-primary">Syllabus Manager</h2>
         <div className="flex gap-4">
           <button
             onClick={() => setBulkAddModalOpen(true)}
@@ -135,7 +135,7 @@ const SubjectManager: React.FC<SubjectManagerProps> = ({ subjects, setSubjects }
           </button>
           <button
             onClick={() => setAddSubjectModalOpen(true)}
-            className="bg-accent-light dark:bg-accent-dark hover:opacity-90 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105 flex items-center gap-2"
+            className="bg-accent hover:opacity-90 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105 flex items-center gap-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
             Add Subject
@@ -155,9 +155,9 @@ const SubjectManager: React.FC<SubjectManagerProps> = ({ subjects, setSubjects }
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 bg-secondary-light dark:bg-secondary-dark rounded-lg border border-border-color">
-          <p className="text-text-secondary-light dark:text-text-secondary-dark">You haven't added any subjects yet.</p>
-          <p className="text-text-secondary-light dark:text-text-secondary-dark mt-2">Click "+ Add Subject" to get started!</p>
+        <div className="text-center py-16 bg-background-secondary rounded-2xl border border-border-color">
+          <p className="text-text-secondary">You haven't added any subjects yet.</p>
+          <p className="text-text-secondary mt-2">Click "+ Add Subject" to get started!</p>
         </div>
       )}
 

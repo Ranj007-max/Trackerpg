@@ -27,14 +27,14 @@ const Modal: React.FC<ModalProps> = ({ title, onClose, children, size = 'md' }) 
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-center items-center" onClick={onClose}>
       <div 
-        className={`bg-slate-800 rounded-lg shadow-xl w-full ${sizeClasses[size]} mx-4 text-slate-100 transform transition-all duration-300 ease-in-out scale-95 animate-scale-in`}
+        className={`bg-background-secondary rounded-2xl shadow-xl w-full ${sizeClasses[size]} mx-4 text-text-primary transform transition-all duration-300 ease-in-out scale-95 animate-scale-in border border-border-color`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center p-4 border-b border-slate-700">
+        <div className="flex justify-between items-center p-4 border-b border-border-color">
           <h2 className="text-xl font-semibold">{title}</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
+          <button onClick={onClose} className="text-text-secondary hover:text-text-primary transition-colors p-1 rounded-full hover:bg-background-primary">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>

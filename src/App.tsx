@@ -61,7 +61,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen font-sans transition-colors duration-300 bg-background-primary-light dark:bg-background-primary-dark text-text-primary-light dark:text-text-primary-dark`}>
+    <div className="min-h-screen font-sans transition-colors duration-300 bg-background-secondary text-text-primary">
       <header className="sticky top-0 z-40 text-white header-gradient shadow-lg">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
           <div className="flex items-center space-x-4">
@@ -109,7 +109,7 @@ const App: React.FC = () => {
         {view === 'manager' && <SubjectManager subjects={subjects} setSubjects={setSubjects} />}
         {view === 'qbank' && <QBankManager subjects={subjects} setSubjects={setSubjects} />}
       </main>
-       <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-text-secondary-light dark:text-text-secondary-dark text-sm">
+       <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-text-secondary text-sm">
          <p>TrackerPG - Your Personal NEET PG Syllabus Companion</p>
        </footer>
        {isProfileModalOpen && <ProfileModal onClose={() => setProfileModalOpen(false)} onSave={setProfile} currentProfile={profile} />}
